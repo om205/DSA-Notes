@@ -1,0 +1,22 @@
+{
+  "id": 1,
+  "title": "Encode and Decode Strings",
+  "slug": "encode-and-decode-strings",
+  "platform": "NeetCode",
+  "difficulty": "Medium",
+  "topics": ["Array", "String"],
+  "problem_link": "https://neetcode.io/problems/string-encode-and-decode/question",
+  "solution_link": "",
+  "time_complexity": "O(n)",
+  "space_complexity": "O(n)",
+  "revision_count": 0,
+  "solved_date": "2026-05-20",
+  "companies": [],
+  "patterns": [
+    "String Encoding",
+    "Serialization"
+  ],
+  "takeaways": [
+    "Prefix-length encoding avoids delimiter collision"
+  ]
+}
