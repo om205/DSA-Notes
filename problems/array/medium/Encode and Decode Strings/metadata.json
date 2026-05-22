@@ -1,7 +1,6 @@
 {
   "id": 1,
   "title": "Encode and Decode Strings",
-  "slug": "encode-and-decode-strings",
   "platform": "NeetCode",
   "difficulty": "Medium",
   "topics": ["Array", "String"],
@@ -16,7 +15,5 @@
     "String Encoding",
     "Serialization"
   ],
-  "takeaways": [
-    "Prefix-length encoding avoids delimiter collision"
-  ]
+  "takeaways": []
 }
