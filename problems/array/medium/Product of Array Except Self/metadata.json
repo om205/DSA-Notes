@@ -1,0 +1,32 @@
+{
+  "id": 4,
+  "title": "Product of Array Except Self",
+  "platform": "LeetCode",
+  "difficulty": "Medium",
+  "topics": [
+    "Array",
+    "Prefix Sum",
+    "Suffix Sum"
+  ],
+  "problem_link": "https://leetcode.com/problems/product-of-array-except-self",
+  "solution_link": "",
+  "time_complexity": "O(n)",
+  "space_complexity": "O(1)",
+  "revision_count": 0,
+  "solved_date": "2026-05-23",
+  "companies": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Microsoft",
+    "Apple",
+    "Bloomberg",
+    "Uber"
+  ],
+  "patterns": [
+    "Array Manipulation",
+    "Prefix/Suffix Product",
+    "Two Pass Algorithm"
+  ],
+  "takeaways": []
+}
