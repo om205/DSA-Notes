@@ -31,7 +31,7 @@ class ProblemTemplateGenerator:
 
     def __init__(self):
         """Initialize the generator with Gemini configuration."""
-        self.api_key = os.getenv("GEMINI_API_KEY") or "AIzaSyCjQ8FpmsFuBbpJGxOZObW-MEp3AjQ0q8s"
+        self.api_key = os.getenv("GEMINI_API_KEY")
         if not self.api_key:
             raise ValueError(
                 "GEMINI_API_KEY environment variable not set. "
