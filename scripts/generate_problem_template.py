@@ -3,7 +3,7 @@
 DSA Problem Template Generator
 
 This script automates the creation of problem directories with README.md and metadata.json
-files by using the Gemini Flash API to extract problem details from URLs.
+files by using the Gemini API to extract problem details from URLs.
 
 Features:
 - Fetches problem details from URLs using Gemini
@@ -18,12 +18,44 @@ import json
 import sys
 from pathlib import Path
 from datetime import datetime
-from typing import Optional, Dict, Any
-import requests
+from typing import Optional, Dict, Any, List, Tuple
 import re
-from urllib.parse import urlparse
+from dotenv import load_dotenv
 
 import google.generativeai as genai
+
+load_dotenv()
+
+
+# Unified deduped topic list from NeetCode 150/250 + Striver A2Z sheets.
+# Each entry is (display_name, folder_slug).
+TOPICS: List[Tuple[str, str]] = [
+    ("Arrays & Hashing", "arrays-hashing"),
+    ("Two Pointers", "two-pointers"),
+    ("Sliding Window", "sliding-window"),
+    ("Stack", "stack"),
+    ("Queue", "queue"),
+    ("Binary Search", "binary-search"),
+    ("Linked List", "linked-list"),
+    ("Trees", "trees"),
+    ("Binary Search Trees", "binary-search-trees"),
+    ("Tries", "tries"),
+    ("Heap / Priority Queue", "heap-priority-queue"),
+    ("Backtracking", "backtracking"),
+    ("Recursion", "recursion"),
+    ("Graphs", "graphs"),
+    ("Advanced Graphs", "advanced-graphs"),
+    ("1-D Dynamic Programming", "1d-dynamic-programming"),
+    ("2-D Dynamic Programming", "2d-dynamic-programming"),
+    ("Greedy", "greedy"),
+    ("Intervals", "intervals"),
+    ("Math & Geometry", "math-geometry"),
+    ("Bit Manipulation", "bit-manipulation"),
+    ("Strings", "strings"),
+    ("Sorting", "sorting"),
+]
+
+DIFFICULTY_MAP = {"E": "Easy", "M": "Medium", "H": "Hard"}
 
 
 class ProblemTemplateGenerator:
@@ -32,15 +64,50 @@ class ProblemTemplateGenerator:
     def __init__(self):
         """Initialize the generator with Gemini configuration."""
         self.api_key = os.getenv("GEMINI_API_KEY")
+        print("API key: ", self.api_key)
         if not self.api_key:
             raise ValueError(
                 "GEMINI_API_KEY environment variable not set. "
                 "Please set it before running this script."
             )
 
+        model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
         genai.configure(api_key=self.api_key)
-        self.model = genai.GenerativeModel("gemini-2.5-flash")
+        self.model = genai.GenerativeModel(model_name)
         self.base_path = Path(__file__).parent.parent / "problems"
+
+    def _resolve_topic(self, raw: str) -> Tuple[str, str]:
+        """Resolve user input to a (display_name, slug) topic.
+
+        Accepts a 1-based number, a prefix of the display name, or the full
+        display name. Matching is case-insensitive. Raises ValueError on
+        no-match or ambiguous prefix.
+        """
+        raw = raw.strip()
+        if not raw:
+            raise ValueError("Topic cannot be empty")
+
+        if raw.isdigit():
+            idx = int(raw)
+            if not 1 <= idx <= len(TOPICS):
+                raise ValueError(f"Topic number must be 1-{len(TOPICS)}")
+            return TOPICS[idx - 1]
+
+        needle = raw.lower()
+        matches = [t for t in TOPICS if t[0].lower().startswith(needle)]
+        if len(matches) == 1:
+            return matches[0]
+        if len(matches) > 1:
+            names = ", ".join(m[0] for m in matches)
+            raise ValueError(f"Ambiguous topic '{raw}'. Matches: {names}")
+        raise ValueError(f"No topic matched '{raw}'")
+
+    def _resolve_difficulty(self, raw: str) -> str:
+        """Resolve E/M/H (any case) to full difficulty name."""
+        raw = raw.strip().upper()
+        if raw not in DIFFICULTY_MAP:
+            raise ValueError("Difficulty must be E, M, or H")
+        return DIFFICULTY_MAP[raw]
 
     def get_user_inputs(self) -> Dict[str, str]:
         """Get user inputs for topic, difficulty, and problem URL."""
@@ -48,51 +115,42 @@ class ProblemTemplateGenerator:
         print("DSA Problem Template Generator")
         print("=" * 60 + "\n")
 
-        topic = input("Enter topic (e.g., array, string, tree, graph): ").strip()
-        if not topic:
-            raise ValueError("Topic cannot be empty")
+        print("Topics (NeetCode + Striver):")
+        for i, (name, _) in enumerate(TOPICS, 1):
+            print(f"  {i:>2}. {name}")
+        print()
 
-        difficulty = input(
-            "Enter difficulty (Easy/Medium/Hard): "
-        ).strip()
-        if difficulty not in ["Easy", "Medium", "Hard"]:
-            raise ValueError("Difficulty must be Easy, Medium, or Hard")
+        topic_display, topic_slug = self._resolve_topic(
+            input("Enter topic (number, prefix, or full name): ")
+        )
+
+        difficulty = self._resolve_difficulty(
+            input("Enter difficulty (E/M/H): ")
+        )
 
         url = input("Enter problem URL (e.g., https://leetcode.com/problems/...): ").strip()
         if not url:
             raise ValueError("URL cannot be empty")
 
-        return {"topic": topic.lower(), "difficulty": difficulty, "url": url}
+        return {
+            "topic_display": topic_display,
+            "topic_slug": topic_slug,
+            "difficulty": difficulty,
+            "url": url,
+        }
 
-    def fetch_problem_html(self, url: str) -> Optional[str]:
-        """Fetch HTML content from the problem URL."""
-        try:
-            headers = {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-            }
-            response = requests.get(url, headers=headers, timeout=10)
-            response.raise_for_status()
-            return response.text
-        except Exception as e:
-            print(f"Warning: Could not fetch HTML from URL: {e}")
-            return None
+    def extract_problem_details(self, url: str) -> Optional[Dict[str, Any]]:
+        """Use Gemini to extract problem details from URL.
 
-    def extract_problem_details(
-        self, url: str, html_content: Optional[str] = None
-    ) -> Dict[str, Any]:
-        """Use Gemini to extract problem details from URL and HTML content."""
+        Returns the parsed problem data on success, or None if the Gemini
+        call fails for any reason (invalid key, network, parse error, etc.).
+        """
         print("\nAnalyzing problem with Gemini...")
-
-        html_context = ""
-        if html_content:
-            # Limit HTML to first 8000 chars to avoid token limits
-            html_context = f"\n\nHTML Content (first part):\n{html_content[:8000]}"
 
         prompt = f"""
 Analyze the following problem URL and extract detailed information about the coding problem.
 
 URL: {url}
-{html_context}
 
 Please extract and provide the following information in JSON format:
 {{
@@ -111,38 +169,42 @@ Please extract and provide the following information in JSON format:
         }}
     ],
     "companies": ["Company 1", "Company 2"],
-    "patterns": ["Pattern 1", "Pattern 2"]
+    "patterns": ["Pattern 1", "Pattern 2"],
+    "intuition": "A short 2-4 sentence intuition explaining the core idea / approach for solving this problem. Plain prose, no code.",
+    "takeaways": ["short takeaway 1", "short takeaway 2", "short takeaway 3"]
 }}
 
 Only return valid JSON. If you cannot find certain information, omit the field or provide best guess based on problem type.
 If there are no examples visible, return empty array for examples.
+Always include "intuition" and "takeaways" based on your own understanding of the problem if the URL content is unavailable.
 """
 
         try:
             response = self.model.generate_content(prompt)
             response_text = response.text
 
-            # Extract JSON from response
             json_match = re.search(r"\{.*\}", response_text, re.DOTALL)
-            if json_match:
-                problem_data = json.loads(json_match.group())
-                return problem_data
-            else:
+            if not json_match:
                 raise ValueError("Could not parse JSON from response")
+            return json.loads(json_match.group())
         except Exception as e:
-            print(f"Error analyzing problem with Gemini: {e}")
-            return {}
+            print(f"Gemini call failed: {e}")
+            return None
 
-    def create_folder_structure(self, topic: str, difficulty: str, problem_name: str) -> Path:
+    def create_folder_structure(self, topic_slug: str, difficulty: str, problem_name: str) -> Path:
         """Create the folder structure for the problem."""
         problem_path = (
-            self.base_path / topic / difficulty.lower() / problem_name
+            self.base_path / topic_slug / difficulty.lower() / problem_name
         )
         problem_path.mkdir(parents=True, exist_ok=True)
         return problem_path
 
     def format_readme(
-        self, problem_data: Dict[str, Any], url: str, problem_name: str
+        self,
+        problem_data: Dict[str, Any],
+        url: str,
+        problem_name: str,
+        difficulty: str,
     ) -> str:
         """Format the README.md content from problem data."""
         title = problem_data.get("title", problem_name)
@@ -151,8 +213,10 @@ If there are no examples visible, return empty array for examples.
         topics = ", ".join(problem_data.get("topics", []))
         constraints = problem_data.get("constraints", [])
         examples = problem_data.get("examples", [])
+        intuition = problem_data.get("intuition", "").strip() or "[Add your approach here]"
+        takeaways = problem_data.get("takeaways", []) or ["takeaway1", "takeaway2"]
+        takeaways_section = "".join(f"- {t}\n" for t in takeaways)
 
-        # Build examples section
         examples_section = ""
         for i, example in enumerate(examples, 1):
             examples_section += f"""### Example {i}
@@ -166,22 +230,19 @@ Output: {example.get('output', '')}
             if example.get("explanation"):
                 examples_section += f"\nExplanation: {example.get('explanation')}\n\n"
 
-        # Default examples if none found
         if not examples_section:
             examples_section = "### Example 1\n\n```txt\nInput: \n\nOutput: \n```\n\n"
 
-        # Build constraints section
         constraints_section = ""
         for constraint in constraints:
             constraints_section += f"- `{constraint}`\n"
 
-        # Default constraints if none found
         if not constraints_section:
             constraints_section = "- `1 <= a <= x`\n- `0 <= b <= y`\n"
 
         readme_content = f"""# {title}
 
-- Difficulty: Medium
+- Difficulty: {difficulty}
 - Topic: {topics}
 - Platform: {platform}
 - Link: {url}
@@ -204,24 +265,16 @@ Output: {example.get('output', '')}
 
 ## Intuition
 
-[Add your approach here]
-
----
-
-## Solution
-
-[Add your solution here]
+{intuition}
 
 ---
 
 ## Takeaways
 
-- takeaway1
-- takeaway2
-
+{takeaways_section}
 ## C++ Concepts
 
-- 
+-
 """
         return readme_content
 
@@ -230,7 +283,7 @@ Output: {example.get('output', '')}
         problem_data: Dict[str, Any],
         url: str,
         difficulty: str,
-        topic: str,
+        topic_display: str,
         problem_id: int,
     ) -> Dict[str, Any]:
         """Format the metadata.json content from problem data."""
@@ -239,7 +292,7 @@ Output: {example.get('output', '')}
             "title": problem_data.get("title", ""),
             "platform": problem_data.get("platform", "Unknown"),
             "difficulty": difficulty,
-            "topics": problem_data.get("topics", [topic]),
+            "topics": problem_data.get("topics", [topic_display]),
             "problem_link": url,
             "solution_link": "",
             "time_complexity": problem_data.get("time_complexity", ""),
@@ -248,13 +301,12 @@ Output: {example.get('output', '')}
             "solved_date": datetime.now().strftime("%Y-%m-%d"),
             "companies": problem_data.get("companies", []),
             "patterns": problem_data.get("patterns", []),
-            "takeaways": []
+            "takeaways": problem_data.get("takeaways", [])
         }
         return metadata
 
     def get_next_problem_id(self) -> int:
         """Get the next available problem ID."""
-        # Count problem folders under problems/<topic>/<difficulty>/<problem-name>
         count = 0
         if not self.base_path.exists():
             return 1
@@ -270,7 +322,6 @@ Output: {example.get('output', '')}
                         if problem_dir.is_dir():
                             count += 1
         except Exception:
-            # Fallback: count existing metadata.json files if directory traversal fails
             count = 0
             for metadata_file in self.base_path.rglob("metadata.json"):
                 try:
@@ -285,77 +336,82 @@ Output: {example.get('output', '')}
 
     def sanitize_folder_name(self, name: str) -> str:
         """Sanitize folder name to be filesystem-safe."""
-        # Remove special characters and replace spaces with underscores
         name = re.sub(r'[^\w\s-]', '', name)
         name = re.sub(r'[\s_]+', ' ', name)
-        # Remove leading numbers
         name = re.sub(r'^\d+', '', name)
         return name.strip()
+
+    def _prompt_yes_no(self, question: str) -> bool:
+        ans = input(f"{question} (y/n): ").strip().lower()
+        return ans in ("y", "yes")
 
     def run(self):
         """Main execution flow."""
         try:
-            # Get user inputs
             inputs = self.get_user_inputs()
-            topic = inputs["topic"]
+            topic_display = inputs["topic_display"]
+            topic_slug = inputs["topic_slug"]
             difficulty = inputs["difficulty"]
             url = inputs["url"]
 
-            # Fetch problem HTML
-            html_content = self.fetch_problem_html(url)
+            problem_data = self.extract_problem_details(url)
 
-            # Extract problem details
-            problem_data = self.extract_problem_details(url, html_content)
+            if problem_data is None:
+                print("\nGemini could not be reached or returned an unusable response.")
+                if not self._prompt_yes_no(
+                    "Create an empty template problem without Gemini?"
+                ):
+                    print("Aborted. No files were created.")
+                    sys.exit(0)
+                manual_title = input("Enter problem title: ").strip()
+                if not manual_title:
+                    raise ValueError("Title cannot be empty when proceeding without Gemini")
+                problem_data = {"title": manual_title, "platform": "Unknown"}
 
-            if not problem_data:
-                print("Warning: Could not extract problem details. Using minimal data.")
-                problem_data = {"title": "New Problem", "platform": "Unknown"}
-
-            # Generate folder name
             title = problem_data.get("title", "problem")
             problem_folder_name = self.sanitize_folder_name(title)
 
-            # Create folder structure
             problem_path = self.create_folder_structure(
-                topic, difficulty, problem_folder_name
+                topic_slug, difficulty, problem_folder_name
             )
 
-            # Get next ID
             problem_id = self.get_next_problem_id()
 
-            # Format README
-            readme_content = self.format_readme(problem_data, url, problem_folder_name)
-
-            # Format metadata
-            metadata = self.format_metadata(
-                problem_data, url, difficulty, topic, problem_id
+            readme_content = self.format_readme(
+                problem_data, url, problem_folder_name, difficulty
             )
 
-            # Write README
+            metadata = self.format_metadata(
+                problem_data, url, difficulty, topic_display, problem_id
+            )
+
             readme_path = problem_path / "README.md"
             with open(readme_path, "w", encoding="utf-8") as f:
                 f.write(readme_content)
 
-            # Write metadata
             metadata_path = problem_path / "metadata.json"
             with open(metadata_path, "w", encoding="utf-8") as f:
                 json.dump(metadata, f, indent=2)
 
-            # Success message
+            solution_path = problem_path / "solution.cpp"
+            if not solution_path.exists():
+                with open(solution_path, "w", encoding="utf-8") as f:
+                    f.write("using namespace std;\n\nclass Solution {\n};\n")
+
             print("\n" + "=" * 60)
             print("✓ Problem template created successfully!")
             print("=" * 60)
             print(f"Problem: {problem_data.get('title', 'Unknown')}")
             print(f"Difficulty: {difficulty}")
-            print(f"Topic: {topic}")
+            print(f"Topic: {topic_display}")
             print(f"Location: {problem_path}")
             print("\nGenerated files:")
             print(f"  - {readme_path}")
             print(f"  - {metadata_path}")
+            print(f"  - {solution_path}")
             print("\nNext steps:")
-            print("  1. Review and edit the generated files")
-            print("  2. Add your solution to README.md")
-            print("  3. Fill in intuition and takeaways")
+            print("  1. Review the generated intuition and takeaways")
+            print("  2. Implement your solution in solution.cpp")
             print("=" * 60 + "\n")
 
         except KeyboardInterrupt:
