@@ -1,0 +1,30 @@
+{
+  "id": 5,
+  "title": "Valid Sudoku",
+  "platform": "LeetCode",
+  "difficulty": "Medium",
+  "topics": [
+    "Array",
+    "Hash Table",
+    "Matrix"
+  ],
+  "problem_link": "https://leetcode.com/problems/valid-sudoku/",
+  "solution_link": "",
+  "time_complexity": "O(1)",
+  "space_complexity": "O(1)",
+  "revision_count": 0,
+  "solved_date": "2026-05-25",
+  "companies": [
+    "Amazon",
+    "Microsoft",
+    "Apple",
+    "Google",
+    "Facebook",
+    "Bloomberg"
+  ],
+  "patterns": [
+    "Hash Set for Duplicates",
+    "Matrix Traversal"
+  ],
+  "takeaways": []
+}
