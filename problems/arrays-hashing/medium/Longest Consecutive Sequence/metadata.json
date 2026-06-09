@@ -1,0 +1,33 @@
+{
+  "id": 6,
+  "title": "Longest Consecutive Sequence",
+  "platform": "LeetCode",
+  "difficulty": "Medium",
+  "topics": [
+    "Array",
+    "Hash Table"
+  ],
+  "problem_link": "https://leetcode.com/problems/longest-consecutive-sequence",
+  "solution_link": "",
+  "time_complexity": "O(n)",
+  "space_complexity": "O(n)",
+  "revision_count": 0,
+  "solved_date": "2026-05-25",
+  "companies": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Microsoft",
+    "Apple"
+  ],
+  "patterns": [
+    "Hash Set / Dictionary Usage",
+    "Sequence Traversal",
+    "Optimized Element Search"
+  ],
+  "takeaways": [
+    "Using a hash set allows for O(1) average time complexity for checking element existence, which is crucial for achieving an O(n) solution.",
+    "To optimize, only initiate sequence counting from potential 'start' elements (numbers `x` for which `x-1` is not present in the set). This ensures each number is part of an extension check at most once, preventing redundant computations.",
+    "The problem leverages the benefits of hash-based data structures to transform a potentially O(N log N) (with sorting) or O(N^2) (naive check) problem into an efficient O(N) solution."
+  ]
+}
