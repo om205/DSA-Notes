@@ -6,6 +6,10 @@ Spaced-repetition flashcards and lessons collected from problems, projects, and 
 
 ---
 
+## DSA Patterns
+
+- [Two Pointers — the two variants](dsa-patterns/two-pointer-variants.md) — opposite-ends vs same-direction, why discarding a pointer is safe, the decision rule for picking a variant cold. *First hit: Two Sum II (2026-06-11).*
+
 ## C++ / Language
 
 - [Signed vs. unsigned pitfalls](cpp/signed-unsigned-pitfalls.md) — `size_t` underflow, `int`-vs-`size_t` comparisons, and the `s.size() - 1` trap. *First hit: Valid Palindrome (2026-06-09).*

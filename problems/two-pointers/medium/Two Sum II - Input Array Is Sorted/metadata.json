@@ -1,0 +1,34 @@
+{
+  "id": 8,
+  "title": "Two Sum II - Input Array Is Sorted",
+  "platform": "LeetCode",
+  "difficulty": "Medium",
+  "topics": [
+    "Array",
+    "Two Pointers",
+    "Binary Search"
+  ],
+  "problem_link": "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/",
+  "solution_link": "",
+  "time_complexity": "O(n)",
+  "space_complexity": "O(1)",
+  "revision_count": 0,
+  "solved_date": "2026-07-23",
+  "companies": [
+    "Amazon",
+    "Facebook",
+    "Google",
+    "Microsoft",
+    "Apple"
+  ],
+  "patterns": [
+    "Two Pointers",
+    "Sliding Window"
+  ],
+  "takeaways": [
+    "Leverage sorted input: When an array is sorted, consider two-pointer techniques or binary search for efficient solutions.",
+    "Two-pointer pattern: Effective for finding pairs or sub-arrays that satisfy a condition in sorted data structures.",
+    "Space optimization: The two-pointer approach often provides an O(1) space complexity solution by avoiding auxiliary data structures.",
+    "Index handling: Always pay attention to whether the problem expects 0-indexed or 1-indexed results, and adjust accordingly."
+  ]
+}
