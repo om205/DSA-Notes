@@ -1,0 +1,41 @@
+{
+  "id": 9,
+  "title": "3Sum",
+  "platform": "LeetCode",
+  "difficulty": "Medium",
+  "topics": [
+    "Array",
+    "Two Pointers",
+    "Sorting"
+  ],
+  "problem_link": "https://leetcode.com/problems/3sum/description/",
+  "solution_link": "",
+  "time_complexity": "O(N^2)",
+  "space_complexity": "O(1) auxiliary (excluding the O(log N) sort stack and the output); the set-based first attempt was O(N)",
+  "revision_count": 0,
+  "revisit": true,
+  "revisit_reason": "Struggled with the hashmap approach first; want to re-derive the two-pointer + in-place dedup solution from scratch and internalize why hashmap is painful here.",
+  "solved_date": "2026-07-24",
+  "companies": [
+    "Amazon",
+    "Facebook",
+    "Google",
+    "Microsoft",
+    "Apple",
+    "Adobe",
+    "Bloomberg"
+  ],
+  "patterns": [
+    "Two Pointers",
+    "Sorting",
+    "N-Sum Problem"
+  ],
+  "takeaways": [
+    "Sorting an array is a powerful pre-processing step for problems involving combinations, order, or duplicate handling.",
+    "The 'N-Sum' problem (e.g., 3Sum, 4Sum) can often be solved by reducing it to an (N-1)-Sum problem by fixing one element and applying iteration or recursion.",
+    "The Two Pointers technique is highly effective for finding pairs with a target sum in a sorted array and for skipping duplicate elements.",
+    "Careful duplicate handling is essential at all levels (for the fixed element and the two-pointer elements) to ensure the solution set contains only unique triplets.",
+    "Sorting turns the dedup problem from hard (hashmap: dedup unordered triplets) into trivial (skip equal neighbours), which is why the O(N^2) sorted approach beats the hashmap attempt despite the same time class.",
+    "Bounds check before the array read: write `while (l < r && nums[l] == nums[l-1])`, not the reverse, so the pointer guard short-circuits before a possible out-of-range access."
+  ]
+}
