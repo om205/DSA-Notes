@@ -1,0 +1,36 @@
+{
+  "id": 10,
+  "title": "Container With Most Water",
+  "platform": "LeetCode",
+  "difficulty": "Medium",
+  "topics": [
+    "Array",
+    "Two Pointers",
+    "Greedy"
+  ],
+  "problem_link": "https://leetcode.com/problems/container-with-most-water/description/",
+  "solution_link": "",
+  "time_complexity": "O(n)",
+  "space_complexity": "O(1)",
+  "revision_count": 0,
+  "solved_date": "2026-07-26",
+  "companies": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Microsoft",
+    "Apple",
+    "Bloomberg"
+  ],
+  "patterns": [
+    "Two Pointers",
+    "Sliding Window"
+  ],
+  "takeaways": [
+    "Two Pointers is a powerful technique for optimizing problems involving arrays where relative order matters and calculations involve endpoints.",
+    "The greedy choice of moving the pointer associated with the shorter line is crucial. This strategy maximizes the chance of increasing the effective height (min_height) of the container.",
+    "Understanding the trade-off between increasing height and decreasing width is key. By moving the shorter pointer, we prioritize the possibility of a greater height to offset the inevitable decrease in width.",
+    "A quantity that couples two indices (min(h[i],h[j])*(j-i)) cannot be captured by per-index precomputation; that is what separates this from Trapping Rain Water, which decomposes per index.",
+    "The optimal partner for a fixed endpoint lives on the prefix-max staircase (domination lemma); two pointers walks that staircase from both ends in O(n) instead of O(n^2)."
+  ]
+}

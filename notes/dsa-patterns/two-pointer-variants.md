@@ -75,6 +75,34 @@ Same argument mirrored when `sum < target`: `arr[l]` is too small to reach the t
 
 ---
 
+## Container With Most Water — why precompute fails, and the staircase
+
+<details>
+<summary><b>Q5b.</b> Prefix-max / suffix-max arrays solve Trapping Rain Water. Why do they FAIL on Container With Most Water?</summary>
+
+**Decomposability.** Trapping Rain Water is per-index: `water[i] = min(preMax[i], sufMax[i]) − h[i]` depends only on `i`'s own left-max and right-max, so precomputed arrays nail it.
+
+Container's objective **couples two endpoints**: `area(i,j) = min(h[i], h[j]) × (j − i)`. No per-index precompute can represent a value that depends on *both* walls at once. Similar-looking problems, different structure — this is the tell for when precomputation is even applicable.
+</details>
+
+<details>
+<summary><b>Q5c.</b> Domination lemma: for a fixed right wall <code>i</code>, which left walls can possibly be the optimal partner?</summary>
+
+Only the **prefix maxima** (walls taller than everything to their left).
+
+*Proof:* take `a < b < i` with `h[a] ≥ h[b]` (a is farther AND at least as tall). Then `(a,i)` is wider (`i−a > i−b`) and no shorter (`min(h[a],h[i]) ≥ min(h[b],h[i])`), so `area(a,i) ≥ area(b,i)`. Any wall with a taller-or-equal wall to its left is therefore dominated. Survivors = the prefix-max staircase ("highest on left, highest left of that, …").
+</details>
+
+<details>
+<summary><b>Q5d.</b> If the optimal partner is always on the prefix-max staircase, why is scanning the staircase per-endpoint NOT the optimal solution — and what fixes it?</summary>
+
+**Worst case O(n²):** a strictly increasing array `[1,2,…,n]` makes *every* wall a prefix max, so each `i`'s staircase has length `i` and the total is `∑ i = O(n²)`.
+
+**Two pointers fixes it** by walking the staircase from both ends at once: when `h[l] < h[r]`, `l` is the limiter at max width, so by the lemma no closer partner beats the area just recorded — discard `l` forever and advance it to its next taller wall (= next staircase step). Each wall visited once → **O(n)**. The two-pointer discard *is* the domination lemma applied online.
+</details>
+
+---
+
 ## Same-direction / sliding window
 
 <details>
