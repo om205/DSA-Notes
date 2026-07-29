@@ -1,0 +1,44 @@
+{
+  "id": 11,
+  "title": "Trapping Rain Water",
+  "platform": "LeetCode",
+  "difficulty": "Hard",
+  "topics": [
+    "Array",
+    "Two Pointers",
+    "Dynamic Programming",
+    "Stack",
+    "Monotonic Stack"
+  ],
+  "problem_link": "https://leetcode.com/problems/trapping-rain-water/description/",
+  "solution_link": "",
+  "time_complexity": "O(n)",
+  "space_complexity": "O(n) as submitted; O(1) achievable BOTH by squeezing my own approach (running segment-sum scalar) and via the canonical running-max two-pointer",
+  "revision_count": 0,
+  "revisit": true,
+  "revisit_reason": "Solved with an original prefix-sum approach at O(n) space. Two follow-ups: (1) re-derive the O(1) squeeze of my own approach — the prefix arrays collapse to one running scalar; (2) implement the canonical O(1) running-max two-pointer, which is the version interviewers expect. Key lesson: the squeeze beat the 'creative leap' at zero asymptotic cost.",
+  "solved_date": "2026-07-27",
+  "companies": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Apple",
+    "Facebook",
+    "Bloomberg",
+    "Salesforce"
+  ],
+  "patterns": [
+    "Two Pointers",
+    "Dynamic Programming (Prefix/Suffix Max)",
+    "Monotonic Stack"
+  ],
+  "takeaways": [
+    "The 'min of maxes' concept is fundamental for water trapping problems.",
+    "Dynamic Programming can be used to pre-compute maximums to the left and right.",
+    "An optimized two-pointer approach can solve the problem in O(1) space by maintaining `max_left` and `max_right` dynamically.",
+    "Monotonic stack is an alternative approach that can find bounding walls for each potential 'pit' efficiently.",
+    "Trapping decomposes as rectangle minus solid bars, and the solid-bar term is a range sum, so prefix sums genuinely help here (the mirror of why they failed on Container With Most Water).",
+    "The strict/non-strict (<= vs <) asymmetry between the two directional passes counts water bounded by equal-height walls exactly once.",
+    "C++ gotchas: 'continue' is a statement and cannot follow the comma operator; a single declaration cannot mix types (int i = 0, ll sum = 0 is illegal)."
+  ]
+}

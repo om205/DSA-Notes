@@ -101,6 +101,36 @@ Only the **prefix maxima** (walls taller than everything to their left).
 **Two pointers fixes it** by walking the staircase from both ends at once: when `h[l] < h[r]`, `l` is the limiter at max width, so by the lemma no closer partner beats the area just recorded — discard `l` forever and advance it to its next taller wall (= next staircase step). Each wall visited once → **O(n)**. The two-pointer discard *is* the domination lemma applied online.
 </details>
 
+<details>
+<summary><b>Q5e.</b> Precompute FAILED on Container With Most Water but WORKS on Trapping Rain Water. What's the one-word difference, and what makes trapping decompose?</summary>
+
+**Decomposability.**
+
+- Container's objective `min(h[i],h[j])*(j-i)` couples *two* endpoints → no per-index precompute captures it.
+- Trapping decomposes: water in a segment = **`rectangle − solid bars`** = `(fast-slow)*h[slow] − sum(h[slow..fast-1])`. The `sum(...)` is a **range-sum query**, so a prefix-*sum* array answers it in O(1).
+
+Note it's prefix **sum** for trapping, not prefix **max** — and the per-cell view `water[i] = min(preMax[i], sufMax[i]) − h[i]` uses prefix/suffix **max**. Either decomposition works because each cell's (or segment's) answer is a function of local precomputed quantities. Container has no such local decomposition. **The test before precomputing: "does each unit of the answer depend on only local, precomputable quantities — or on a pairing I have to search for?"**
+</details>
+
+<details>
+<summary><b>Q5f. ⭐ REUSABLE PATTERN I keep missing.</b> When the answer at a position is <code>min</code>/<code>max</code> of a LEFT-quantity and a RIGHT-quantity, what collapses the two precomputed arrays to O(1)?</summary>
+
+**Two pointers, advance the shorter side, keep a running max/min scalar.** This is the same move as "move the shorter wall" in Container With Most Water.
+
+- Container: area limited by `min(h[l], h[r])` → move the shorter wall.
+- Trapping (O(1) version): water at a column limited by `min(leftMax, rightMax)` → step the pointer with the shorter *bar*; that side's running max is the true binding wall (the other side is guaranteed taller because that's why you didn't pick it). Two scalars replace `preMax[]`/`sufMax[]`.
+
+```cpp
+int l = 0, r = n - 1, leftMax = 0, rightMax = 0, ans = 0;
+while (l < r) {
+    if (h[l] < h[r]) { leftMax  = max(leftMax,  h[l]); ans += leftMax  - h[l]; ++l; }
+    else             { rightMax = max(rightMax, h[r]); ans += rightMax - h[r]; --r; }
+}
+```
+
+**My standing weak spot:** when a prefix/suffix-array framing is available I commit to it and forget to run the reduction pass. After ANY working solution, ask: *"O(n) space — can a two-pointer that advances the shorter side collapse these arrays to scalars?"* Seeing prefix/suffix **max**/**min** arrays is the tell that this O(1) collapse probably exists.
+</details>
+
 ---
 
 ## Same-direction / sliding window
