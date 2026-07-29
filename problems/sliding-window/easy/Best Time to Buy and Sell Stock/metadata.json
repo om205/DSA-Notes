@@ -1,0 +1,35 @@
+{
+  "id": 12,
+  "title": "Best Time to Buy and Sell Stock",
+  "platform": "LeetCode",
+  "difficulty": "Easy",
+  "topics": [
+    "Array",
+    "Dynamic Programming",
+    "Greedy"
+  ],
+  "problem_link": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+  "solution_link": "",
+  "time_complexity": "O(n)",
+  "space_complexity": "O(1)",
+  "revision_count": 0,
+  "solved_date": "2026-07-29",
+  "companies": [
+    "Amazon",
+    "Apple",
+    "Facebook",
+    "Google",
+    "Microsoft",
+    "Uber"
+  ],
+  "patterns": [
+    "One-Pass Algorithm",
+    "Greedy Algorithm",
+    "Kadane's Algorithm variation"
+  ],
+  "takeaways": [
+    "Problems requiring maximum difference between two elements (where order matters) can often be solved in a single pass.",
+    "Maintain a running minimum (or maximum, depending on the problem) as you iterate through the array.",
+    "A greedy approach often works efficiently by making the locally optimal choice (e.g., always buying at the lowest price seen so far) to achieve a globally optimal solution."
+  ]
+}
