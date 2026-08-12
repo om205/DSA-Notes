@@ -8,6 +8,7 @@ Spaced-repetition flashcards and lessons collected from problems, projects, and 
 
 ## Plan
 
+- **[Timer targets](timer-targets.md)** — ⏱️ target times by difficulty, what to do at the buzzer, hard ceilings. *Open this before starting a problem.*
 - **[Prep roadmap](roadmap.md)** — coverage tracker, cadence, and the interview-vs-Codeforces goal split. *Start here when deciding what to solve next.*
 
 ## DSA Patterns
