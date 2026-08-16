@@ -9,7 +9,8 @@ Spaced-repetition flashcards and lessons collected from problems, projects, and 
 ## Plan
 
 - **[Weekly revision protocol](revision-protocol.md)** — 🔁 every Sunday, 45–60 min. **Retrieval, not re-reading.** *Notes you don't retrieve are notes you didn't write.*
-- **[Interview explanation template](interview-explanation-template.md)** — 🎤 the 7 beats. Practise on every solve; concrete before abstract.
+- **[Interview explanation template](interview-explanation-template.md)** — 🎤 Axis 1, *what* you say: the 7 beats. Practise on every solve; concrete before abstract.
+- **[Communication rubric](communication-rubric.md)** — 🗣️ Axis 2, *how* you say it: 6 dimensions /30. Terminology precision is the expensive one.
 - **[Timer targets](timer-targets.md)** — ⏱️ target times by difficulty, what to do at the buzzer, hard ceilings. *Open this before starting a problem.*
 - **[Prep roadmap](roadmap.md)** — coverage tracker, cadence, and the interview-vs-Codeforces goal split. *Start here when deciding what to solve next.*
 
