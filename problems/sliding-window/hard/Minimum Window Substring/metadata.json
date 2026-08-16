@@ -1,0 +1,34 @@
+{
+  "id": 16,
+  "title": "Minimum Window Substring",
+  "platform": "LeetCode",
+  "difficulty": "Hard",
+  "topics": [
+    "Hash Table",
+    "String",
+    "Sliding Window"
+  ],
+  "problem_link": "https://leetcode.com/problems/minimum-window-substring/description/",
+  "solution_link": "",
+  "time_complexity": "O(m + n)",
+  "space_complexity": "O(1)",
+  "revision_count": 0,
+  "solved_date": "2026-08-16",
+  "companies": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Microsoft",
+    "Apple",
+    "Uber"
+  ],
+  "patterns": [
+    "Sliding Window"
+  ],
+  "takeaways": [
+    "The Sliding Window technique is highly effective for substring or subarray problems that involve finding a minimum/maximum valid segment.",
+    "Using a frequency map (hash map) is crucial for efficiently tracking character counts of required characters (from `t`) and characters present in the current window.",
+    "A counter to track how many unique characters from `t` have met their frequency requirement in the current window can optimize the condition check.",
+    "The general strategy is: expand the window until the condition is met, then contract it from the left while maintaining the condition, updating the best result, until the condition is broken."
+  ]
+}

@@ -143,10 +143,36 @@ Not more easies.
 ## Cadence
 
 - **2 problems/day** — one in a *new* bucket, one timed review.
-- **35-minute timer.** Not solved? +10 minutes, then read the editorial. No 3-hour grinds; they train stubbornness, not skill.
+- **Timer protocol — see below.** No 3-hour grinds; they train stubbornness, not skill.
 - **The squeeze pass — every problem, 5 minutes, before looking anything up.** Target O(1) space and one complexity class faster. See [optimization ladder](dsa-patterns/optimization-ladder.md). Non-negotiable: this is the exact skill flagged as missing, and it's already proven doable.
 - **1 CF contest/week** (Div 3 to start) **+ upsolve everything not solved in-contest.** The upsolving is where rating comes from, not the contest.
 - **CF practice targeting (from the tag data):** stop farming 800s — 49% of solved problems are already 800-rated and they teach nothing new now. Practice **1200–1500 rated problems tagged `dp`, `graphs`, `trees`, `data structures`, `binary search`.** That is precisely the gap; it is also exactly what NC150 buckets 7–14 cover, so contest practice and interview prep reinforce each other.
+
+### Timer protocol
+
+> **Quick reference: [timer-targets.md](timer-targets.md)** — open that before each problem. Full rationale below.
+
+**Stopwatch to measure, timer to decide.** Count up while working (no countdown anxiety) so you get data on real solve times; set one alarm at the decision point.
+
+**The buzzer is not pass/fail — it is a trigger to change strategy.**
+
+| | New problem | Re-solve (Phase 1) |
+|---|---|---|
+| Easy | 15 min | 8 min |
+| Medium | 25 min | 15 min |
+| Hard | 40 min | 25 min |
+
+Timer covers **solve only**, not the writeup.
+
+**At the buzzer, branch on why you're stuck:**
+
+1. **Working approach, just implementing/debugging** → add 15 min. Productive path; the clock misjudged.
+2. **No viable approach** → stop. Read **only the hint** / editorial's first paragraph — not the solution. Fresh 15-min timer, solve it yourself.
+3. **Still stuck after the hint** → read the full editorial, close it, implement from memory. **Re-solve from scratch in 2–3 days** — that re-solve is what actually teaches.
+
+**Hard ceiling: 60 min for a medium, 90 for a hard**, hint time included. Past that, marginal learning collapses.
+
+**Built-in dry-run step:** the last 60 seconds before submitting, trace the first input where the tricky branch fires. Part of "done", not an optional act of willpower — this is how the tracing habit gets built (see recurring pattern #12/#13).
 
 ### Writeup tiering (the depth/breadth fix)
 

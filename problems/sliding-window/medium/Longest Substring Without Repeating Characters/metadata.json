@@ -1,0 +1,37 @@
+{
+  "id": 13,
+  "title": "Longest Substring Without Repeating Characters",
+  "platform": "LeetCode",
+  "difficulty": "Medium",
+  "topics": [
+    "Hash Table",
+    "String",
+    "Sliding Window",
+    "Two Pointers"
+  ],
+  "problem_link": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+  "solution_link": "",
+  "time_complexity": "O(n)",
+  "space_complexity": "O(min(n, alphabet_size))",
+  "revision_count": 0,
+  "solved_date": "2026-07-29",
+  "companies": [
+    "Amazon",
+    "Google",
+    "Facebook",
+    "Microsoft",
+    "Apple",
+    "Adobe",
+    "Bloomberg"
+  ],
+  "patterns": [
+    "Sliding Window",
+    "Two Pointers"
+  ],
+  "takeaways": [
+    "The sliding window technique is effective for substring/subarray problems with a 'contiguous' constraint.",
+    "A hash set (or frequency map) is crucial for efficiently checking character existence and managing duplicates within the window.",
+    "The two-pointer approach (left and right) allows for dynamic expansion and contraction of the window.",
+    "This problem is a foundational example for understanding and applying the sliding window pattern."
+  ]
+}
