@@ -1,0 +1,33 @@
+{
+  "id": 15,
+  "title": "Permutation in String",
+  "platform": "LeetCode",
+  "difficulty": "Medium",
+  "topics": [
+    "Hash Table",
+    "String",
+    "Sliding Window"
+  ],
+  "problem_link": "https://leetcode.com/problems/permutation-in-string",
+  "solution_link": "",
+  "time_complexity": "O(L1 + L2)",
+  "space_complexity": "O(1)",
+  "revision_count": 0,
+  "solved_date": "2026-08-16",
+  "companies": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Facebook"
+  ],
+  "patterns": [
+    "Sliding Window",
+    "Frequency Counter"
+  ],
+  "takeaways": [
+    "Sliding Window is excellent for substring problems with a fixed target length or properties that can be maintained efficiently by adding/removing characters from window ends.",
+    "Frequency arrays/maps are crucial for checking permutations or anagrams, especially with a limited character set.",
+    "To optimize, instead of comparing two full frequency maps, maintain a 'match count' or a difference array to track how many characters' frequencies currently match between the window and the target string.",
+    "For small, fixed alphabets (like lowercase English letters), an array of size 26 is more efficient than a hash map for frequency counting due to direct indexing."
+  ]
+}
