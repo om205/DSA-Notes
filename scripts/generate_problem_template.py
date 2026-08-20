@@ -71,7 +71,7 @@ class ProblemTemplateGenerator:
                 "Please set it before running this script."
             )
 
-        model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+        model_name = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")
         genai.configure(api_key=self.api_key)
         self.model = genai.GenerativeModel(model_name)
         self.base_path = Path(__file__).parent.parent / "problems"

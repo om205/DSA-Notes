@@ -1,0 +1,35 @@
+{
+  "id": 17,
+  "title": "Sliding Window Maximum",
+  "platform": "LeetCode",
+  "difficulty": "Hard",
+  "topics": [
+    "Array",
+    "Queue",
+    "Sliding Window",
+    "Monotonic Queue",
+    "Heap (Priority Queue)"
+  ],
+  "problem_link": "https://leetcode.com/problems/sliding-window-maximum",
+  "solution_link": "",
+  "time_complexity": "O(n)",
+  "space_complexity": "O(k)",
+  "revision_count": 0,
+  "solved_date": "2026-08-19",
+  "companies": [
+    "Amazon",
+    "Google",
+    "Microsoft",
+    "Meta",
+    "Apple"
+  ],
+  "patterns": [
+    "Monotonic Deque",
+    "Sliding Window"
+  ],
+  "takeaways": [
+    "A monotonic queue enables O(1) query time for the maximum or minimum element in a dynamic window.",
+    "Storing indices in the deque allows efficient verification of whether elements have slipped out of the window.",
+    "Each element is pushed and popped at most once, leading to an optimal linear O(n) runtime."
+  ]
+}
