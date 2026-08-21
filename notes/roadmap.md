@@ -174,6 +174,38 @@ Timer covers **solve only**, not the writeup.
 
 **Built-in dry-run step:** the last 60 seconds before submitting, trace the first input where the tricky branch fires. Part of "done", not an optional act of willpower — this is how the tracing habit gets built (see recurring pattern #12/#13).
 
+### Theory triage — how much to study before practicing
+
+**The test: can I derive this in 25 minutes under pressure?** Yes → practice first, theory adds nothing. No → theory first, because you will never invent Dijkstra at a whiteboard.
+
+| Topic | Verdict | Budget | "Floor" from LC data |
+|---|---|---|---|
+| RPN / postfix evaluation | **Derivable — no tutorial** | 0 | — |
+| Infix→postfix (shunting yard) | Only if it appears | 1 hr | — |
+| Sorting algorithms | **Vocabulary only** — never implemented in interviews | 2 hrs | — |
+| Binary search variants | Derivable but error-prone → memorize the template | 30 min | 9 |
+| **Heap / priority queue** | 🔴 **Theory first — the one true void** | 90 min | **0** |
+| Trees / BFS / DFS | Recovery, not learning | 45 min | 11–20 |
+| **Graph algorithms** | 🔴 **Theory first** — Dijkstra, topo sort, union-find | 2–3 hrs | 5 |
+| **DP patterns** | 🔴 **Theory first** — the classic recurrences | 3–4 hrs | 21 |
+| AVL / red-black / B-trees | **Skip.** Conceptual only | 30 min | — |
+| Segment tree / BIT | **Defer to the CF track** | later | — |
+
+**Notes:**
+- **Sorting: know the table, never the code.** Complexity, stability, in-place or not, when to pick which. Two mechanical exceptions worth knowing: **merge** (powers merge-k-lists, counting inversions) and **quickselect** (kth largest).
+- **Balanced trees are a university topic, not an interview topic.** Know *what* a red-black tree is (self-balancing BST, O(log n) guaranteed, backs `std::map`) and *why* B-trees exist (disks read in blocks → database indexes). Implementing them is months of effort for zero interview return.
+- **Segment trees are CF-relevant, not interview-relevant.** Two goals want different theory; the interview track is primary.
+
+### The rule: thin, just-in-time theory
+
+Both extremes fail. Theory-first-and-deep → three weeks on DP, understand everything, still can't solve a DP problem (passive learning doesn't transfer). Practice-only → four hours re-deriving what a twenty-minute video teaches.
+
+> **30–60 minutes of theory per bucket, then straight into problems. Return to theory only when stuck.**
+
+Theory's job is **vocabulary and the canonical shape**, not mastery. Mastery comes from the problems. Reading more theory before struggling with a problem is wasted — there are no hooks to hang it on yet.
+
+**⚠️ Caution:** "prepare theory before practicing" held tightly becomes preparation-as-procrastination — the same shape as the logged habit of retreating into comfortable depth instead of uncomfortable reps. Reading about DP *feels* productive; failing at a DP problem *is* productive. **Hard cap: one hour of theory, then problems, however unready it feels.**
+
 ### Writeup tiering (the depth/breadth fix)
 
 The full ritual (proofs, flashcards, mentor review) is valuable but costs ~1hr+/problem. Tier it:

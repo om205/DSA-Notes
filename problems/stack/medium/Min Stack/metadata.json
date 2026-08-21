@@ -1,0 +1,32 @@
+{
+  "id": 19,
+  "title": "Min Stack",
+  "platform": "LeetCode",
+  "difficulty": "Easy",
+  "topics": [
+    "Stack",
+    "Design"
+  ],
+  "problem_link": "https://leetcode.com/problems/min-stack/description/",
+  "solution_link": "",
+  "time_complexity": "O(1) for all operations",
+  "space_complexity": "O(n)",
+  "revision_count": 0,
+  "solved_date": "2026-08-20",
+  "companies": [
+    "Amazon",
+    "Bloomberg",
+    "Microsoft",
+    "Apple",
+    "Google"
+  ],
+  "patterns": [
+    "Auxiliary Stack",
+    "State Tracking"
+  ],
+  "takeaways": [
+    "Use an auxiliary stack or pair values with their corresponding state to achieve O(1) query time.",
+    "Trade O(n) space complexity to achieve optimal O(1) time complexity across all stack operations.",
+    "Keep dual data structures synchronized during state-changing operations like push and pop."
+  ]
+}
