@@ -16,6 +16,8 @@ Spaced-repetition flashcards and lessons collected from problems, projects, and 
 
 ## DSA Patterns
 
+- **[Pattern triggers](pattern-triggers.md)** — 🎯 signal → technique. **Cover the topic tag before every problem and guess the pattern first.** Topic-organised practice trains execution, not selection; this is the fix. *First hit: Daily Temperatures (2026-08-22).*
+
 - **[Loop skeletons](dsa-patterns/loop-skeletons.md)** — 🔧 the 9 canonical loop shapes. **Type the skeleton BEFORE thinking about the problem.** Clean code is recalled, not derived. *First hit: Longest Repeating Character Replacement (2026-08-13).*
 - [Two Pointers — the two variants](dsa-patterns/two-pointer-variants.md) — opposite-ends vs same-direction, why discarding a pointer is safe, the decision rule for picking a variant cold. *First hit: Two Sum II (2026-06-11).*
 - [The optimization ladder](dsa-patterns/optimization-ladder.md) — what to do when asked "can you do better?": squeeze before switching, reason backward from the target, and the standard time/space transformations. *First hit: Trapping Rain Water post-mortem (2026-07-28).*
