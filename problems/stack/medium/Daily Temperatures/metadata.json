@@ -1,0 +1,37 @@
+{
+  "id": 20,
+  "title": "Daily Temperatures",
+  "platform": "LeetCode",
+  "difficulty": "Medium",
+  "topics": [
+    "Array",
+    "Stack",
+    "Monotonic Stack"
+  ],
+  "problem_link": "https://leetcode.com/problems/daily-temperatures/",
+  "solution_link": "",
+  "time_complexity": "O(n)",
+  "space_complexity": "O(n)",
+  "revision_count": 0,
+  "solved_date": "2026-08-22",
+  "companies": [
+    "Amazon",
+    "Meta",
+    "Google",
+    "Microsoft",
+    "Apple"
+  ],
+  "patterns": [
+    "Monotonic Stack",
+    "Next Greater Element"
+  ],
+  "takeaways": [
+    "Monotonic stacks are ideal for 'next greater element' problems to reduce time complexity from O(n^2) to O(n).",
+    "Store indices instead of values in the stack when you need to calculate distance between elements.",
+    "Elements in the stack represent unresolved states waiting for a future condition to be met.",
+    "The TRIGGER is 'for each element, find the nearest later element satisfying X' -> monotonic stack. Learn the signal, not just the technique.",
+    "Two equivalent directions: right-to-left 'look ahead' (top of stack IS the answer) and left-to-right 'resolve on arrival' (a warmer day settles everything below it). Both O(n).",
+    "Do not use abs() on a difference whose sign the loop invariant already fixes - state the invariant instead."
+  ],
+  "self_assessment": "Solved it only because the topic label said 'stack'. Flagged that without the label I would likely have built something more complex. This is the selection-vs-execution gap that topic-organised practice creates."
+}

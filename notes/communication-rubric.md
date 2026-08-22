@@ -26,10 +26,34 @@ Score each dimension **/5**, total **/30**.
 | Date | Problem | 1 Struct | 2 Term | 3 Concise | 4 Fluency | 5 Confid | 6 Track | **Total** |
 |---|---|---|---|---|---|---|---|---|
 | 2026-08-16 | Minimum Window Substring | 3 | 2 | 2 | 2 | 2 | 2 | **13/30** |
+| 2026-08-20 | Sliding Window Maximum | 3.5 | 2 | 3 | 3 | **4** ⬆️ | 3 | **18.5/30** |
 
 ---
 
 ## Active fixes (work these in order)
+
+### 0. 🔴 DIRECTION INVERSION — the #1 fix
+
+**Three explanations, three inversions — with correct code every time.**
+
+| Said | Actually |
+|---|---|
+| "eliminate where s2's length is **greater** than s1" | s1 greater than s2 |
+| "frequency **subset**" | super**set** — the window *covers* t |
+| "maintain an always **increasing** sequence" | **decreasing** — the front is the max |
+
+This is not a comprehension gap. It's a missing *verbal label*: with no rehearsed phrase for the direction, you derive it live and land it about half the time.
+
+**Fix: anchor to a concrete position. Never name a direction.**
+
+> ❌ "we maintain a decreasing sequence"
+> ✅ **"the front of the deque always holds the window's maximum"**
+
+A concrete anchor cannot be inverted. Rewrites for the others:
+- ✅ "we bail out when t is longer than s"
+- ✅ "the window has to contain every character t needs"
+
+**Rehearse the anchored phrase. Do not derive the direction while speaking.**
 
 ### 1. ⚠️ Terminology — the expensive one
 

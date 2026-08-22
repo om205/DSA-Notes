@@ -1,0 +1,37 @@
+{
+  "id": 21,
+  "title": "Evaluate Reverse Polish Notation",
+  "platform": "LeetCode",
+  "difficulty": "Medium",
+  "topics": [
+    "Array",
+    "Math",
+    "Stack"
+  ],
+  "problem_link": "https://leetcode.com/problems/evaluate-reverse-polish-notation/",
+  "solution_link": "",
+  "time_complexity": "O(n)",
+  "space_complexity": "O(n)",
+  "revision_count": 0,
+  "solved_date": "2026-08-22",
+  "companies": [
+    "Amazon",
+    "Microsoft",
+    "LinkedIn",
+    "Google",
+    "Apple"
+  ],
+  "patterns": [
+    "Stack"
+  ],
+  "takeaways": [
+    "A stack is the natural data structure for postfix notation evaluation as operators act on the most recently parsed operands.",
+    "Order of operands matters for non-commutative operations like subtraction and division; the first popped element is the second (right) operand.",
+    "Be cautious with integer division truncating toward zero depending on the language (e.g., Python's // truncates towards negative infinity, so int(a / b) should be used instead).",
+    "Operand/operator discrimination: every operator is exactly one character, so any token of length >= 2 must be a number. That single fact handles negative literals like -11 with no special case.",
+    "Trigger to memorise: 'evaluate an expression where operators follow their operands' -> stack, because operators consume the most recently produced values (LIFO by definition).",
+    "Parenthesise && inside || even when precedence already gives the right answer; compilers warn (-Wparentheses) because it is a common misreading.",
+    "C++ integer division truncates toward zero, guaranteed since C++11 (-7/2 == -3), which matches this problem's spec exactly."
+  ],
+  "self_assessment": "Expected to need a postfix/infix tutorial first and instead derived it cold. Confirms the just-in-time theory rule: RPN evaluation passes the 'can I derive this in 25 minutes' test, so studying first would have been wasted. Calibration note: I underestimate what I can derive."
+}

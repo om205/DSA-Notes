@@ -1,0 +1,33 @@
+{
+  "id": 18,
+  "title": "Valid Parentheses",
+  "platform": "LeetCode",
+  "difficulty": "Easy",
+  "topics": [
+    "String",
+    "Stack"
+  ],
+  "problem_link": "https://leetcode.com/problems/valid-parentheses/",
+  "solution_link": "",
+  "time_complexity": "O(n)",
+  "space_complexity": "O(n)",
+  "revision_count": 0,
+  "solved_date": "2026-08-20",
+  "companies": [
+    "Amazon",
+    "Microsoft",
+    "Meta",
+    "Google",
+    "Apple",
+    "Bloomberg"
+  ],
+  "patterns": [
+    "Stack",
+    "Bracket Matching"
+  ],
+  "takeaways": [
+    "Stacks are the canonical data structure for problems involving nested or balanced structures due to their Last-In, First-Out (LIFO) property.",
+    "Using a hash map to map closing brackets to their corresponding opening brackets simplifies character comparison logic.",
+    "Don't forget edge cases like odd string lengths, starting with closing brackets, or unclosed opening brackets remaining in the stack at the end."
+  ]
+}
