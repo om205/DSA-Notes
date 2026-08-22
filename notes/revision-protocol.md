@@ -30,7 +30,8 @@ Score each: **ace → push to monthly · fumble → stays weekly.**
 Cold, no notes on the problem itself. Type the skeleton first.
 
 Current queue:
-- [ ] **Longest Repeating Character Replacement** — by 2026-08-18. Pass = correct **and** no sentinel, no branch on validity.
+- [ ] 🔴 **Car Fleet** — *4 attempts, hardest struggle so far.* Pass = reach the backward-scan **running-max** formulation **directly**, and notice the stack collapses to one scalar. Re-test `target=10, position=[0,4,2], speed=[2,1,3]` → **1**. Recall the blocker in one sentence before coding: *a car's listed time is real only if the road ahead is empty.*
+- [ ] **Longest Repeating Character Replacement** — was due 2026-08-18. Pass = correct **and** no sentinel, no branch on validity.
 - [ ] **3Sum** — re-derive the two-pointer + in-place dedup from scratch.
 - [ ] **Trapping Rain Water** — implement the canonical O(1) running-max version.
 

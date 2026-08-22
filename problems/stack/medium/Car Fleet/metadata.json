@@ -1,0 +1,45 @@
+{
+  "id": 22,
+  "title": "Car Fleet",
+  "platform": "LeetCode",
+  "difficulty": "Medium",
+  "topics": [
+    "Array",
+    "Stack",
+    "Sorting",
+    "Monotonic Stack"
+  ],
+  "problem_link": "https://leetcode.com/problems/car-fleet/description/",
+  "solution_link": "",
+  "time_complexity": "O(n log n)",
+  "space_complexity": "O(n)",
+  "revision_count": 0,
+  "solved_date": "2026-08-22",
+  "companies": [
+    "Google",
+    "Amazon",
+    "Microsoft",
+    "Uber",
+    "Apple"
+  ],
+  "patterns": [
+    "Monotonic Stack",
+    "Sorting"
+  ],
+  "takeaways": [
+    "Sorting elements relative to destination simplifies tracking interactions.",
+    "Transforming speed and distance into time-to-target reduces a dynamic simulation to static comparisons.",
+    "A monotonic stack or maintaining a running maximum time tracks active fleet leaders efficiently.",
+    "REFRAME: do not compute WHERE cars meet, compare WHEN they arrive. Car i joins the fleet ahead iff time[i] <= time[ahead], because starting behind and arriving no later means it must have caught up before the target.",
+    "Any ratio in a motion/geometry problem must be double. Cast ONE operand before dividing - casting the result is too late, truncation already happened.",
+    "Guard before dividing: (cur.speed > p.speed) && (...) prevents both a negative catch-up time and a divide-by-zero on equal speeds.",
+    "A problem's topic tag names a POSSIBLE tool, not the necessary one. Car Fleet is tagged Stack, but the stack is only a running maximum in disguise.",
+    "ADDITIVE DEBUGGING is the real lesson here: V2 layered the new arrival-time framing ON TOP of the old catch-up geometry instead of replacing it, and came out longer, slower and MORE wrong (46% vs 45% failure). Deleting the geometry - changing nothing else but if->while and <= -> < - passed 30000/30000. When you adopt a new framing, delete the old one first; if both are in the code, at least one is wrong. Ask 'what can I remove?' before 'what can I add?'",
+    "Operator precedence: / binds tighter than -, so `target - pos / time` is `target - (pos/time)`. Parenthesise any mixed arithmetic whose grouping matters.",
+    "Left-to-right (farthest from target first) is a valid alternative direction: each new car is closer to the target than everything on the stack, so pop every fleet whose arrival time is <= mine, then push."
+  ],
+  "revisit": true,
+  "revisit_priority": "HIGH",
+  "revisit_reason": "STRUGGLED BADLY - took 4 attempts. V1: catch-up geometry with integer division and no guard that the rear car is faster (negative catch-up time meant a SLOWER car appeared to catch the one ahead) - failed LC example 1 and ~45% of random tests. V2: layered the arrival-time reframe ON TOP of the geometry instead of replacing it, plus an operator-precedence bug (`target - pos / time` is `target - (pos/time)`) - 46% failure, WORSE than V1; deleting the added machinery passed 30000/30000. V3: adjacent/pairwise comparison of raw times - failed target=10, position=[0,4,2], speed=[2,1,3]. V4 (passing): sort by position, scan BACKWARD from the target, new fleet only when time > running max. Verified 0/40000. RE-SOLVE COLD: the pass condition is not just correctness but reaching V4 directly, and collapsing the stack to a single scalar (it is a running max in disguise - O(1) space).",
+  "self_assessment": "Four attempts. The blocker was conceptual, not syntactic: times[i] is a car's arrival time ONLY IF the road ahead is empty. Once a car joins a fleet its real arrival becomes the fleet's, and that must propagate backward - which is exactly what a running max does and what pairwise comparison cannot do. Also hand-traced the killer case wrong by tracing the arithmetic instead of the physics; a position-vs-time table settled it in four rows."
+}
